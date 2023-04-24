@@ -14,10 +14,20 @@ builder.Services.AddDbContext<CourtMatterDbContext>(options =>
     options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddScoped<IClientRepository, ClientService>();
+builder.Services.AddScoped<IAttorneyRepository, AttorneyService>();
+builder.Services.AddScoped<IMatterRepository, MatterService>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceService>();
+builder.Services.AddScoped<IJurisdictionRepository, JurisdictionService>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
