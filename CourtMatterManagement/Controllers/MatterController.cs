@@ -3,6 +3,7 @@ using CourtMatterManagement.Service.Constants;
 using CourtMatterManagement.Service.DTOs;
 using CourtMatterManagement.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CourtMatterManagement.Controllers
 {
@@ -36,7 +37,7 @@ namespace CourtMatterManagement.Controllers
         {
             try
             {
-                var matters = _matters.GetAllMatters();
+                List<MatterDto> matters = _matters.GetAllMatters();
                 if (matters.ToList().Count == 0)
                     return Ok(new ApiResponse<object> { StatusCode = 200, Message = ApiResponseMessages.NoMatters });
                 else
@@ -69,7 +70,7 @@ namespace CourtMatterManagement.Controllers
         {
             try
             {
-                var matter = _matters.GetMatterById(id);
+                MatterDto matter = _matters.GetMatterById(id);
                 if (matter == null)
                 {
                     return NotFound(new ApiResponse<object> { StatusCode = 200, Message = ApiResponseMessages.MatterNotFound });
@@ -179,7 +180,7 @@ namespace CourtMatterManagement.Controllers
         {
             try
             {
-                var matter = _matters.DeleteMatter(id);
+                bool matter = _matters.DeleteMatter(id);
                 if (matter)
                 {
                     return Ok(new ApiResponse<object> { StatusCode = 200, Message = ApiResponseMessages.MatterDeleted });
@@ -251,7 +252,7 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">list of invoices by matters</response>
-        [HttpGet("/matters/{attorneyId}/invoices")]
+        [HttpGet("/attorneys/{attorneyId}/invoices")]
         public IActionResult GetLastWeeksBillingByMatter(int attorneyId)
         {
             try
@@ -280,8 +281,8 @@ namespace CourtMatterManagement.Controllers
         {
             try
             {
-                List<IGrouping<int, Matter>> matters = _matters.GetAllMattersByClients();
-                return Ok(new ApiResponse<List<IGrouping<int, Matter>>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
+                List<IGrouping<int, MatterDto>> matters = _matters.GetAllMattersByClients();
+                return Ok(new ApiResponse<List<IGrouping<int, MatterDto>>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
             }
             catch(Exception ex)
             {
@@ -302,8 +303,8 @@ namespace CourtMatterManagement.Controllers
         [HttpGet("/invoicesByMatters")]
         public IActionResult GetInvoicesByMatters()
         {
-            List<IGrouping<int, Invoice>> invoices = _matters.GetAllInvoices();
-            return Ok(new ApiResponse<List<IGrouping<int, Invoice>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
+            List<IGrouping<int, InvoiceDto>> invoices = _matters.GetAllInvoices().ToList();
+            return Ok(new ApiResponse<List<IGrouping<int, InvoiceDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
         }
 
         /// <summary>
@@ -319,8 +320,8 @@ namespace CourtMatterManagement.Controllers
         [HttpGet("/invoicesBillingByAttorney")]
         public IActionResult GetLastWeeksBillingByAttorney()
         {
-            List<IGrouping<int, Invoice>> invoices = _matters.GetLastWeekBillingsByAttorney();
-            return Ok(new ApiResponse<List<IGrouping<int, Invoice>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
+            List<IGrouping<int, InvoiceDto>> invoices = _matters.GetLastWeekBillingsByAttorney();
+            return Ok(new ApiResponse<List<IGrouping<int, InvoiceDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
         }
     }
 }

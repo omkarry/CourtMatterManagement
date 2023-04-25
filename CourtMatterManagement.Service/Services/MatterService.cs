@@ -109,25 +109,25 @@ namespace CourtMatterManagement.Service.Services
             return invoices.Select(c => new InvoiceMapper().Map(c)).ToList();
         }
 
-        public List<IGrouping<int, Matter>> GetAllMattersByClients()
+        public List<IGrouping<int, MatterDto>> GetAllMattersByClients()
         {
-            List<IGrouping<int, Matter>> matterList = _context.Matters.GroupBy(s => s.ClientId).ToList();
+            List<IGrouping<int, MatterDto>> matterList = _context.Matters.Select(c => new MatterMapper().Map(c)).GroupBy(s => s.ClientId).ToList();
             return matterList;
         }
 
-        public List<IGrouping<int, Invoice>> GetAllInvoices()
+        public List<IGrouping<int, InvoiceDto>> GetAllInvoices()
         {
-            List<IGrouping<int, Invoice>> invoiceList = _context.Invoices.GroupBy(s => s.MatterId).ToList();
+            List<IGrouping<int, InvoiceDto>> invoiceList = _context.Invoices.Select(c => new InvoiceMapper().Map(c)).GroupBy(s => s.MatterId).ToList();
             return invoiceList;
         }
 
-        public List<IGrouping<int, Invoice>> GetLastWeekBillingsByAttorney()
+        public List<IGrouping<int, InvoiceDto>> GetLastWeekBillingsByAttorney()
         {
             DateTime lastMonday = DateTime.Today.AddDays(-1 * (int)DateTime.Today.DayOfWeek);
             DateTime lastSunday = lastMonday.AddDays(-6);
 
-            List<IGrouping<int, Invoice>> invoices = _context.Invoices
-                .Where(i => i.Date >= lastSunday && i.Date <= lastMonday).GroupBy(s => s.AttorneyId).ToList();
+            List<IGrouping<int, InvoiceDto>> invoices = _context.Invoices
+                .Where(i => i.Date >= lastSunday && i.Date <= lastMonday).Select(c => new InvoiceMapper().Map(c)).GroupBy(s => s.AttorneyId).ToList();
             return invoices;
         }
     }
