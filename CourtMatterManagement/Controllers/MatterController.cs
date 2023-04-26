@@ -204,13 +204,13 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">list of matters for a client</response>
-        [HttpGet("/matters/{clientId}/matters")]
+        [HttpGet("matters/{clientId}/matters")]
         public IActionResult GetMattersByClient(int clientId)
         {
             try
             {
-                List<MatterDto> matters = _matters.GetMattersByClient(clientId);
-                return Ok(new ApiResponse<List<MatterDto>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
+                List<ClientMatterDto> matters = _matters.GetMattersByClient(clientId);
+                return Ok(new ApiResponse<List<ClientMatterDto>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
             }
             catch(Exception ex)
             {
@@ -228,13 +228,13 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">list of invoices for a matter</response>
-        [HttpGet("/matters/{matterId}/invoices")]
+        [HttpGet("matters/{matterId}/invoices")]
         public IActionResult GetInvoicesByMatter(int matterId)
         {
             try
             {
-                List<InvoiceDto> invoices = _matters.GetInvoicesByMatter(matterId);
-                return Ok(new ApiResponse<List<InvoiceDto>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
+                List<InvoiceWithDetailsDto> invoices = _matters.GetInvoicesByMatter(matterId);
+                return Ok(new ApiResponse<List<InvoiceWithDetailsDto>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
             }
             catch(Exception ex)
             {
@@ -252,13 +252,13 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">list of invoices by matters</response>
-        [HttpGet("/attorneys/{attorneyId}/invoices")]
+        [HttpGet("attorneys/{attorneyId}/invoices")]
         public IActionResult GetLastWeeksBillingByMatter(int attorneyId)
         {
             try
             {
-                List<InvoiceDto> invoices = _matters.GetLastWeeksBillingByAttorney(attorneyId);
-                return Ok(new ApiResponse<List<InvoiceDto>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
+                List<InvoiceWithDetailsDto> invoices = _matters.GetLastWeeksBillingByAttorney(attorneyId);
+                return Ok(new ApiResponse<List<InvoiceWithDetailsDto>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
             }
             catch(Exception ex)
             {
@@ -272,17 +272,17 @@ namespace CourtMatterManagement.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     GET /api/invoicesByMatters
+        ///     GET /api/mattersByClients
         ///
         /// </remarks>
-        /// <response code="200">list of invoices by matters</response>
-        [HttpGet("/mattersByClients")]
+        /// <response code="200">list of matters by clients</response>
+        [HttpGet("mattersByClients")]
         public IActionResult GetMattersByClients()
         {
             try
             {
-                List<IGrouping<int, MatterDto>> matters = _matters.GetAllMattersByClients();
-                return Ok(new ApiResponse<List<IGrouping<int, MatterDto>>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
+                List<IGrouping<int, ClientMatterDto>> matters = _matters.GetAllMattersByClients();
+                return Ok(new ApiResponse<List<IGrouping<int, ClientMatterDto>>> { StatusCode = 200, Message = ApiResponseMessages.MattersByClient, Result = matters });
             }
             catch(Exception ex)
             {
@@ -300,11 +300,11 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">list of invoices by matters</response>
-        [HttpGet("/invoicesByMatters")]
+        [HttpGet("invoicesByMatters")]
         public IActionResult GetInvoicesByMatters()
         {
-            List<IGrouping<int, InvoiceDto>> invoices = _matters.GetAllInvoices().ToList();
-            return Ok(new ApiResponse<List<IGrouping<int, InvoiceDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
+            List<IGrouping<int, InvoiceWithDetailsDto>> invoices = _matters.GetAllInvoicesByMatters().ToList();
+            return Ok(new ApiResponse<List<IGrouping<int, InvoiceWithDetailsDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByMatter, Result = invoices });
         }
 
         /// <summary>
@@ -317,11 +317,11 @@ namespace CourtMatterManagement.Controllers
         ///
         /// </remarks>
         /// <response code="200">List of invoices for last week by matters</response>
-        [HttpGet("/invoicesBillingByAttorney")]
+        [HttpGet("invoicesBillingByAttorney")]
         public IActionResult GetLastWeeksBillingByAttorney()
         {
-            List<IGrouping<int, InvoiceDto>> invoices = _matters.GetLastWeekBillingsByAttorney();
-            return Ok(new ApiResponse<List<IGrouping<int, InvoiceDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
+            List<IGrouping<int, InvoiceWithDetailsDto>> invoices = _matters.GetLastWeekBillingsByAttorney();
+            return Ok(new ApiResponse<List<IGrouping<int, InvoiceWithDetailsDto>>> { StatusCode = 200, Message = ApiResponseMessages.InvoicesByAttorney, Result = invoices });
         }
     }
 }

@@ -14,5 +14,7 @@ namespace CourtMatterManagement.Service.Interfaces
         void CreateAttorney(AttorneyDto attorneyDto);
         AttorneyDto? UpdateAttorney(int id, AttorneyDto attorneyDto);
         bool DeleteAttorney(int id);
+        public List<AttorneyDto> GetAttorneysByJurisdictionId(int jurisdictionId);
+
     }
 }

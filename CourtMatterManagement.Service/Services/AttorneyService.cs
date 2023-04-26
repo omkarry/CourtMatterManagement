@@ -68,7 +68,7 @@ namespace CourtMatterManagement.Service.Services
 
         public bool DeleteAttorney(int id)
         {
-            Attorney attorneyToDelete = _context.Attorneys.Include(c => c.Jurisdiction).ToList().Where(_ => _.Id == id).FirstOrDefault();
+            Attorney attorneyToDelete = _context.Attorneys.Include(c => c.Jurisdiction).ToList().FirstOrDefault(_ => _.Id == id);
             if (attorneyToDelete != null)
             {
                 _context.Attorneys.Remove(attorneyToDelete);
@@ -79,7 +79,12 @@ namespace CourtMatterManagement.Service.Services
             {
                 return false;
             }
+        }
 
+        public List<AttorneyDto> GetAttorneysByJurisdictionId(int jurisdictionId)
+        {
+            List<Attorney> attorneys = _context.Attorneys.Include(c => c.Jurisdiction).Where(_ => _.JurisdictionId == jurisdictionId).ToList();
+            return attorneys.Select(c => new AttorneyMapper().Map(c)).ToList();
         }
     }
 }

@@ -3,10 +3,17 @@ using CourtMatterManagement.Service.Interfaces;
 using CourtMatterManagement.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(o => o.AddPolicy("ReactPolicy", builder =>
+{
+    builder.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+}));
 
-// Add services to the container.
+          // Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -36,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("ReactPolicy");
 
 app.UseAuthorization();
 

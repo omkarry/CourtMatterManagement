@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CourtMatterManagement.Controllers
 {
+    [Route("api")]
+    [ApiController]
     public class JurisdictionController : ControllerBase
     {
         private readonly IJurisdictionRepository _jurisdiction;

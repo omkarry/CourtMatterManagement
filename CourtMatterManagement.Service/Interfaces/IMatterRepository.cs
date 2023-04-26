@@ -10,12 +10,12 @@ namespace CourtMatterManagement.Service.Interfaces
         public void CreateMatter(MatterDto matterDto);
         public MatterDto? UpdateMatter(int id, MatterDto matterDto);
         public bool DeleteMatter(int id);
-        public List<MatterDto> GetMattersByClient(int clientId);
-        public List<InvoiceDto> GetInvoicesByMatter(int matterId);
-        public List<InvoiceDto> GetLastWeeksBillingByAttorney(int attorneyId);
-        public List<IGrouping<int, InvoiceDto>> GetAllInvoices();
-        public List<IGrouping<int, InvoiceDto>> GetLastWeekBillingsByAttorney();
-        public List<IGrouping<int, MatterDto>> GetAllMattersByClients();
+        public List<ClientMatterDto> GetMattersByClient(int clientId);
+        public List<InvoiceWithDetailsDto> GetInvoicesByMatter(int matterId);
+        public List<InvoiceWithDetailsDto> GetLastWeeksBillingByAttorney(int attorneyId);
+        public List<IGrouping<int, InvoiceWithDetailsDto>> GetAllInvoicesByMatters();
+        public List<IGrouping<int, InvoiceWithDetailsDto>> GetLastWeekBillingsByAttorney();
+        public List<IGrouping<int, ClientMatterDto>> GetAllMattersByClients();
 
     }
 }

@@ -192,5 +192,40 @@ namespace CourtMatterManagement.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Returns specific attorneys by jurisdiction 
+        /// </summary>
+        /// <returns>A requested attorney</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/attorney/{id}
+        ///
+        /// </remarks>
+        /// <response code="200">Returns the list of attorneys for jurisdiction</response>
+        /// <response code="404">attorney not found</response>
+        /// <response code="500">Internal server Error</response>
+        [HttpGet("attorney/{jurisdictionId}/attorneys")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAttorneys(int jurisdictionId)
+        {
+            try
+            {
+                List<AttorneyDto>? attorney = _attorney.GetAttorneysByJurisdictionId(jurisdictionId);
+                if (attorney == null)
+                {
+                    return NotFound(new ApiResponse<object> { StatusCode = 200, Message = ApiResponseMessages.AttorneyNotFound });
+                }
+                else
+                    return Ok(new ApiResponse<List<AttorneyDto>>{ StatusCode = 200, Message = ApiResponseMessages.AttorneyDetails, Result = attorney });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
