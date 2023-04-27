@@ -1,0 +1,12 @@
+#table-wrapper {
+  position:relative;
+}
+#table-scroll {
+height: 60vh;
+overflow:auto;  
+  margin-top:20px;
+}
+#table-wrapper table {
+  width:100%;
+
+}
