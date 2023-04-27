@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function Sidebar() {
   return (
     <>
-      <div className="d-flex flex-column flex-shrink-0 m-0 p-3 text-bg-dark position-absolute sidebar">
+      <div className="d-flex flex-column flex-shrink-0 m-0 p-3 text-bg-dark sidebar">
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
             <a href="#" className="nav-link text-white font-weight-bold" aria-current="page">

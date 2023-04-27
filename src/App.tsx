@@ -10,9 +10,6 @@ export const AppContext = React.createContext<any>({});
 export const baseUrl = "http://localhost:5274/api";
 
 function App() {
-  const [profile, setProfile] = useState({
-    name: "Johnson",
-  });
 
   const [loading,setLoadingState] = useState(getLoading());
 
@@ -21,17 +18,19 @@ function App() {
   },[loading])
   
   return (
-    <AppContext.Provider value={{ profile, loading }}>
+    <AppContext.Provider value={{ loading }}>
       <BrowserRouter>
-        <div className="container-fluid w-100">
+        <div className="container-fluid">
           <div className="row">
+            <div className="col-md-12 absolute-top">
             <Header />
+            </div>
           </div>
           <div className="row">
-            <div className="col-md-3 p-0 h-100">
+            <div className="col-md-2 p-0 overflow-auto">
               <Sidebar />
             </div>
-            <div className="col-md-9 mt-3 pl-0">
+            <div className="col-md-10 mt-3 pl-0">
               <Main />
             </div>
           </div>

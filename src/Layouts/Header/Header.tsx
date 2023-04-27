@@ -7,14 +7,14 @@ function Header() {
   const { profile } = React.useContext(AppContext);
 
   return (
-    <header className="p-3 border-bottom" style={{height: "12vh"}}>
+    <header className="p-3 border-bottom">
       <div className="container">
-        <div className="d-flex flex-wrap align-items-center justify-content-evenly justify-content-lg-between">
-          <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+        <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
+          <a href="/" className="col-md-4 d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
             <h3>Lexicon</h3>
           </a>
 
-          <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <form className="col-md-6 mb-3 mb-lg-0 me-lg-3" role="search">
             <input type="search" className="form-control" placeholder="Search..." aria-label="Search" />
           </form>
 
